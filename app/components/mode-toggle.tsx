@@ -11,12 +11,7 @@ import { useTheme } from "@components/theme-provider";
 import { useContext } from "react";
 import { useSettings } from "@components/settings-provider";
 
-type ModeToggleProps = {
-  children: React.ReactNode;
-  test: string;
-};
-
-const ModeToggle = (props: ModeToggleProps) => {
+const ModeToggle = () => {
   const { setTheme, theme } = useTheme();
 
   const settingsContext = useSettings();
@@ -33,15 +28,12 @@ const ModeToggle = (props: ModeToggleProps) => {
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
           Light
-          {props.children}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
           Dark
-          {props.children}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
           System
-          {settingsContext.settings.language}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

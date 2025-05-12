@@ -19,8 +19,28 @@ import {
   MenubarTrigger,
 } from "@components/ui/menubar";
 import ModeToggle from "@components/mode-toggle";
+import CoffeeCard from "@components/CoffeeCard";
+import { useEffect, useState } from "react";
+import type { Coffee } from "~/types/coffee";
 
 export function Welcome() {
+  const [coffeeList, setCoffeeList] = useState<Coffee[]>([]);
+
+  const fetchData = async () => {
+    let res = await fetch("https://api.sampleapis.com/coffee/hot");
+
+    let coffeeData: Coffee[] = await res.json();
+
+    setCoffeeList(coffeeData);
+
+    console.log(coffeeData);
+  };
+
+  useEffect(() => {
+    console.log("Fetching data!");
+    fetchData();
+  }, []);
+
   return (
     <main>
       <Menubar>
@@ -39,18 +59,28 @@ export function Welcome() {
         </MenubarMenu>
       </Menubar>
 
-      <ModeToggle test="teststrintg">fjhdklsafjslkfjsklfsd;jk</ModeToggle>
+      <ModeToggle />
 
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
             <NavigationMenuContent>
-              <NavigationMenuLink>Link</NavigationMenuLink>
+              <NavigationMenuLink onClick={fetchData}>Link</NavigationMenuLink>
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
+
+      {import.meta.env.VITE_COOL}
+
+      {coffeeList.map((coffeeItem) => (
+        <CoffeeCard
+          title={coffeeItem.title}
+          image={coffeeItem.image}
+          description={coffeeItem.description}
+        ></CoffeeCard>
+      ))}
     </main>
   );
 }
